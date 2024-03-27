@@ -2,3 +2,26 @@
     font-size: 16px;
     line-height: 1.8rem;
 }
+.item-information {
+    background-color: rgba(220, 243, 255, 0.45);
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.111);
+}
+.item-information ul {
+    list-style: disc;
+    margin: 10px 0;
+    padding: 0 20px;
+}
+
+.item-information ul li {
+    margin: 10px 0;
+}
+.bg-black-opacity{
+    background-color: rgba(0, 0, 0, 0.259);
+}
