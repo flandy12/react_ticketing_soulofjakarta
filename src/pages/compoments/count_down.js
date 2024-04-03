@@ -54,7 +54,7 @@ const CountdownTimer = (props) => {
       <div>
         {timeRemaining !== null ? (
          <>
-          <p className="text-center font-semibold text-red-500 text-lg"> Sisa Waktu</p>
+          <p className="text-center font-semibold text-lg">Selesaikan Pesanamu Dalam</p>
           <p className="text-red-500 font-semibold text-center text-2xl">
              {timeRemaining.hours === 0 ? '00' : timeRemaining.hours} : {timeRemaining.minutes < 10 ? `0` + timeRemaining.minutes :timeRemaining.minutes } :{' '}
             {timeRemaining.seconds < 10 ? `0`+timeRemaining.seconds : timeRemaining.seconds}
@@ -62,7 +62,7 @@ const CountdownTimer = (props) => {
           </>
         ) : (
             <div className="my-5">
-                <p className="text-center font-semibold text-red-500 text-lg"> Sisa Waktu</p>
+                <p className="text-center font-semibold text-lg"> Selesaikan Pesanamu Dalam</p>
                 <p className="font-bold text-3xl flex justify-center items-center text-red-500">00:00:00</p>
             </div>
         )}

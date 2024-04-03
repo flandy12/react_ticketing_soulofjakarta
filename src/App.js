@@ -7,6 +7,8 @@ import PageCheckout from './pages/user_gues/checkout/page';
 import PaymentMethod from './pages/user_gues/payment/page';
 import LayoutPayment from './pages/user_gues/payment/layout';
 import SuccessPage from './pages/user_gues/payment/finish';
+import ErrorPage from './pages/compoments/error/error_page';
+import NotFound from './pages/compoments/error/not_found';
 // import Payment from './pages/payment/payment';
 // import ShopingChart from './pages/shopping_cart';
 
@@ -20,7 +22,8 @@ function App() {
             <Route path="/payment-method" element={<PaymentMethod />} />
             <Route path="/payment" element={<LayoutPayment />} />
             <Route path="/payment/finish" element={<SuccessPage />} />
-            {/* <Route path="/keranjang" element={<ShopingChart />} /> */}
+            <Route path="/error" element={<ErrorPage />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
       </div>
   );

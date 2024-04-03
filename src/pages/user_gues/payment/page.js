@@ -2,7 +2,6 @@ import { CallApi, GetKey } from "../../../helper/Api";
 import { useEffect, useState } from "react";
 import Navbar from "../../compoments/navbar";
 import LoadingAnimation from "../../compoments/loading";
-import { CountdownTimerMethodPaymant } from "../../compoments/count_down";
 import ServerError from "../../compoments/error/server_error";
 import { useSearchParams } from "react-router-dom";
 
@@ -70,16 +69,13 @@ const PaymentMethod = () => {
         // if (click_count_value === 1) {
         let formdata = new FormData();
         if(getLocalStorage.ticket_more_than_one_person === '1') {
-
             for (let index = 0; index < getLocalStorage.total_ticket; index++) {
-        
                 for (let count = 0; count < getLocalStorage.ticket.length; count++) {
                     formdata.append(`ticket_owner_name_${getLocalStorage.ticket[count].code}[]`, getLocalStorage.user_data_guest[count].name );
                     formdata.append(`ticket_owner_email_${getLocalStorage.ticket[count].code}[]`, getLocalStorage.user_data_guest[count].email );
                     formdata.append(`ticket_owner_id_card_number_${getLocalStorage.ticket[count].code}[]`, getLocalStorage.user_data_guest[count].id_card_number);
                     formdata.append(`ticket_owner_phone_number_${getLocalStorage.ticket[count].code}[]`, getLocalStorage.user_data_guest[count].phone);
                 }
-
             }
             
             formdata.append('uuid', getLocalStorage.uuid);
@@ -96,15 +92,15 @@ const PaymentMethod = () => {
             formdata.append('order_id', getLocalStorage.order_id);
             formdata.append('payment_code', e.target.getAttribute('data-code'));
             formdata.append('payment_type_id', e.target.getAttribute('data-id'));
-            
+
             BuyTicket(formdata);
         } else {
             formdata.append('uuid', getLocalStorage.uuid)
-            formdata.append('name', getLocalStorage.user_data_guest.name)
-            formdata.append('email', getLocalStorage.user_data_guest.email)
-            formdata.append('id_card_number', getLocalStorage.user_data_guest.id_card_number)
-            formdata.append('gender', parseInt(getLocalStorage.user_data_guest.gender))
-            formdata.append('phone_number', getLocalStorage.user_data_guest.phone_number)
+            formdata.append('name', getLocalStorage.user_data_guest[0].name);    
+            formdata.append('email', getLocalStorage.user_data_guest[0].email); 
+            formdata.append('id_card_number', getLocalStorage.user_data_guest[0].id_card_number); 
+            formdata.append('gender', getLocalStorage.user_data_guest[0].gender); 
+            formdata.append(`phone_number`, getLocalStorage.user_data_guest[0].phone);
             formdata.append('order_id', getLocalStorage.order_id);
             formdata.append('payment_code', e.target.getAttribute('data-code'));
             formdata.append('payment_type_id', e.target.getAttribute('data-id'));
@@ -115,13 +111,7 @@ const PaymentMethod = () => {
             BuyTicket(formdata);
 
         }
-        // } else {
-        //     setClick(true);
-        //     setTimeout(() => {
-        //         alert('Kamu Gagal Memesan Tiket');
-        //         window.location.href = route_checkout;
-        //     }, 1500);
-        // }
+       
     }
 
     const BuyTicket = (formdata) => {
@@ -153,11 +143,11 @@ const PaymentMethod = () => {
                     if (getLocalStorage.ticket_more_than_one_person === '0') {
                         const getLocalStorage =  JSON.parse(localStorage.getItem('data-ticket')); 
                         formData.append('uuid', getLocalStorage.uuid);
-                        formData.append('name', getLocalStorage.user_data_guest.name);
-                        formData.append('id_card_number', getLocalStorage.user_data_guest.id_card_number);
-                        formData.append('email', getLocalStorage.user_data_guest.email);
-                        formData.append('phone_number', getLocalStorage.user_data_guest.phone_number);
-                        formData.append('gender', parseInt(getLocalStorage.user_data_guest.gender));
+                        formData.append('name', getLocalStorage.user_data_guest[0].name);
+                        formData.append('id_card_number', getLocalStorage.user_data_guest[0].id_card_number);
+                        formData.append('email', getLocalStorage.user_data_guest[0].email);
+                        formData.append('phone_number', getLocalStorage.user_data_guest[0].phone);
+                        formData.append('gender', parseInt(getLocalStorage.user_data_guest[0].gender));
                         formData.append('payment_type', getLocalStorage.payment_category);
                         formData.append('payment_code', getLocalStorage.payment_code);
                         formData.append('event', getLocalStorage.id_event);
@@ -171,31 +161,33 @@ const PaymentMethod = () => {
                         
                     } else {
                         const getLocalStorage =  JSON.parse(localStorage.getItem('data-ticket')); 
-                        formData.append('payment_type', getLocalStorage.payment_type);
+                        formData.append('payment_type', getLocalStorage.payment_category);
                         formData.append('payment_code', getLocalStorage.payment_code);
                         formData.append('invoice', getLocalStorage.invoice_id);
-                        formData.append('event', getLocalStorage.id);
+                        formData.append('event', getLocalStorage.id_event);
     
                         formData.append('uuid', getLocalStorage.uuid);
-                        formData.append(`ip_address`, getLocalStorage.ip_address);
-                        formData.append(`name`, getLocalStorage.name);
-                        formData.append(`email`, getLocalStorage.email);
-                        formData.append(`gender`, parseInt(getLocalStorage.gender));
-                        formData.append(`id_card_number`, parseInt(getLocalStorage.id_card_number));
-                        formData.append(`phone_number`, parseInt(getLocalStorage.phone));
-    
-                        Object.keys(getLocalStorage.fields).forEach(function (value, key) {
-                            let value_ticket_id = value.replace('qty_', '');
-                            formData.append(value, getLocalStorage.fields[value]);
-                            formData.append(`ticket_owner_name_${value_ticket_id}[]`, getLocalStorage.history_ticket[key].name);
-                            formData.append(`ticket_owner_id_card_number_${value_ticket_id}[]`, getLocalStorage.history_ticket[key].id_card_number);
-                            formData.append(`ticket_owner_email_${value_ticket_id}[]`, getLocalStorage.history_ticket[key].email);
-                            formData.append(`ticket_owner_phone_number_${value_ticket_id}[]`, getLocalStorage.history_ticket[key].phone);
+                        formData.append('ip_address', getLocalStorage.ip_address);
+                        formData.append('name', getLocalStorage.user_data_guest[0].name);
+                        formData.append('email', getLocalStorage.user_data_guest[0].email);
+                        formData.append('phone_number', getLocalStorage.user_data_guest[0].phone);
+                        formData.append('gender', parseInt(getLocalStorage.user_data_guest[0].gender));
+                        formData.append(`id_card_number`, parseInt(getLocalStorage.user_data_guest[0].id_card_number));
+
+                        for (let index = 0; index < getLocalStorage.total_ticket; index++) {
+                            for (let count = 0; count < getLocalStorage.ticket.length; count++) {
+                                formData.append(`ticket_owner_name_${getLocalStorage.ticket[count].code}[]`, getLocalStorage.user_data_guest[count].name );
+                                formData.append(`ticket_owner_email_${getLocalStorage.ticket[count].code}[]`, getLocalStorage.user_data_guest[count].email );
+                                formData.append(`ticket_owner_id_card_number_${getLocalStorage.ticket[count].code}[]`, getLocalStorage.user_data_guest[count].id_card_number);
+                                formData.append(`ticket_owner_phone_number_${getLocalStorage.ticket[count].code}[]`, getLocalStorage.user_data_guest[count].phone);
+                            }
+                        }
+
+                        Object.keys(getLocalStorage.fields).forEach(function (key) {
+                            formData.append(`${key}`, parseInt(getLocalStorage.fields[key]));
                         });
-                        for (var pair of formdata.entries()) {
-                            console.log(pair[0] + ": " + pair[1]);
-                          }
-                        // CallApiPayment(formData);
+
+                        CallApiPayment(formData);
                     }
                 }
             }else {
@@ -333,15 +325,21 @@ const PaymentMethod = () => {
                         localStorage.setItem('data-ticket', JSON.stringify(getLocalStorage));
                         return prevTimer - 1;
                       } else {
-                        clearInterval(interval); // Hentikan interval jika waktu sudah habis
-                        getLocalStorage['expired_method_payment'] = 0 ;
-                        localStorage.setItem('data-ticket', JSON.stringify(getLocalStorage));
-                        window.location.href = beforePage;
-                        return 0;
+                        //ID = Id Passing Url
+                        if (getLocalStorage.id !== 0) {
+                                alert('Tiket Sedang Di Batalkan')
+                                localStorage.removeItem('history_ticket');
+       
+                        } else {
+                            alert('Tiket Sedang Di Batalkan');
+                            clearInterval(interval); // Hentikan interval jika waktu sudah habis
+                            window.location.href = `/detail/${getLocalStorage.id_event}`;
+                        }
+                           
                       }
                 }
             });
-          }, 1000);
+          }, 2000);
           
           return () => {
             clearInterval(interval)
@@ -353,7 +351,7 @@ const PaymentMethod = () => {
       
         return (
           <div>
-             <p className="text-center font-semibold text-red-500 text-lg"> Sisa Waktu</p>
+             <p className="text-center font-semibold text-red-500 text-lg"> Selesaikan Pesananmu Dalam</p>
             <p className="text-red-500 font-semibold text-center text-2xl">00 : {minutes < 10 ? '0' + minutes : minutes} : {seconds < 10 ? '0' + seconds : seconds}</p>
           </div>
         );
@@ -405,7 +403,6 @@ const PaymentMethod = () => {
 
     useEffect(() => {
         API();  
-      
     }, [])
 
     return (

@@ -5,7 +5,7 @@ const Navbar = () => {
     const getUrl = window.location.pathname.split('/')[1];
     return (
     <nav className="bg-black sticky-top">
-        <div className="max-w-screen-xl flex flex-wrap items-center mx-auto p-4">
+        <div className="flex flex-wrap items-center mx-auto p-4 max-md:justify-between container ">
             <Link to="/" className="flex items-center space-x-3 rtl:space-x-reverse">
                 <img src="/images/icon/logo.svg" className="h-8" alt="Logo" />
             </Link>
@@ -16,7 +16,7 @@ const Navbar = () => {
                 </svg>
             </button>
             <div className="hidden w-full md:block md:w-auto  ms-8" id="navbar-default">
-            <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border rounded-lg  md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 text-gray-400 opacity-90">
+            <ul className="font-medium flex flex-col max-md:justify-between p-4 md:p-0 mt-4 border rounded-lg  md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 text-gray-400 opacity-90">
                 <li>
                 <Link to="/" className={`block py-2 px-3 bg-blue-700 rounded ${getUrl === '' ? 'text-orange-300' : ''} bg-transparent md:p-0`} aria-current="page" >Home</Link>
                 </li>

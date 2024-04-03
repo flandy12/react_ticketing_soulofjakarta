@@ -135,7 +135,7 @@ const LayoutPayment = () => {
         const InstantPayment = () => {
             return (
                 <>
-                    <div className="flex flex-col justify-between space-y-3">
+                    <div className="flex flex-col max-md:flex-col justify-between space-y-3">
                         <div className="bg-blue-50 p-2 rounded border font-semibold capitalize">
                         {/* {searchParams.paymenttype === 'bank_transfer'? 'Virtual' : ''}  */}
                         <span className="uppercase">{getLocalStorage.payment_name}</span></div>
@@ -179,15 +179,15 @@ const LayoutPayment = () => {
 
         return (
             <div className="container mx-auto">
-                <div className="flex gap-5 w-full h-max py-20">
-                    <div className="w-[40%] bg-slate-50 p-5 border rounded-xl">
+                <div className="flex max-md:flex-col-reverse gap-5 w-full h-max py-20">
+                    <div className="w-[40%] max-md:w-full bg-slate-50 p-5 border rounded-xl">
                     <RouteLayout/>
                     </div>
                     <div className="w-full p-10 space-y-5 bg-slate-50 border rounded-xl">
                         <CountdownTimer time={getLocalStorage.invoice_expired_at} history_ticket = {getLocalStorage.invoice_id}/>
 
-                        <div className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row ">
-                            <img className="object-cover w-[50%] h-3/6 rounded-t-lg md:h-auto md:rounded-none md:rounded-s-lg" src={getLocalStorage.img_ticket} alt="" />
+                        <div className="flex items-center bg-white border border-gray-200 rounded-lg shadow max-md:p-5">
+                            <img className="object-cover w-[50%] h-3/6 rounded-t-lg md:h-auto md:rounded-none md:rounded-s-lg max-md:rounded" src={getLocalStorage.img_ticket} alt="" />
                             <div className="flex flex-col justify-between p-4 leading-normal  w-[60%]">
                                 <h5 className="mb-2 text-2xl font-semibold tracking-tight text-gray-900 ">{getLocalStorage.name_event}</h5>
                                 <div className="flex justify-between">
@@ -219,6 +219,9 @@ const LayoutPayment = () => {
     return (
         <div>
             <LoadingAnimation/>
+           
+
+         
             <Navbar/>
 
             {
@@ -226,6 +229,8 @@ const LayoutPayment = () => {
                     <Payment/>
                 ) : (window.location.href = '/')
             }
+
+
 
            
         </div>

@@ -64,12 +64,12 @@ const DetailPage = () => {
                 setTicket(res.results.tickets);
                 setNameEvent(res.results.name);
                 setMainImage(res.results.main_img);
-                setStartDate(res.results.start_date);
+                setStartDate(res.results.start_datefields);
                 setStartTime(res.results.start_time);
                 setEndTime(res.results.end_time);
                 setCity(res.results.city);
                 setTicketMoreThanOnePerson(res.results.ticket_more_than_one_person === true ? 1 : 0);
-                // setPlace(res.result.venue);
+                setPlace(res.results.venue);
                 setPromotor(res.results.promoter);
                 setDescription(atob(res.results.description));
                 setInformation(atob(res.results.information));
@@ -165,22 +165,12 @@ const DetailPage = () => {
         const Remainding = ()   => {
             return (
                 <> 
-                {props.dataRemaindingInPercentage === 0 ? (
-                    (!props.ticketSold ? 
+                    {!props.ticketSold ? 
                     (<div className="flex gap-6">
                     <button onClick={reduction} data-price={props.dataPrice} className="bg-yellow-300 font-semibold  h-7 w-7 rounded-full border">-</button>
                     <button className="font-semibold">{values}</button>
                     <button onClick={increment} data-price={props.dataPrice} className="bg-yellow-300 font-semibold  h-7 w-7 rounded-full border">+</button>
-                    </div>) : <p className="text-red-500 font-semibold uppercase">Sold</p>)
-                ) : (
-                    (!props.ticketSold ? 
-                    (<div className="flex gap-6">
-                    <button onClick={reduction} data-price={props.dataPrice} className="bg-yellow-300 font-semibold  h-7 w-7 rounded-full border">-</button>
-                    <button className="font-semibold">{values}</button>
-                    <button onClick={increment} data-price={props.dataPrice} className="bg-yellow-300 font-semibold  h-7 w-7 rounded-full border">+</button>
-                    </div>) : <p className="text-red-500 font-semibold uppercase">Sold</p>)
-                    )
-                }
+                    </div>) : <p className="text-red-500 font-semibold uppercase">Sold</p>}
                 </>
             )
         }
@@ -253,6 +243,7 @@ const DetailPage = () => {
             'ticket_more_than_one_person' : ticket_more_than_one_person ,
            
         }
+
         if(totalTicket <= maximum_purchase_ticket) {
             for (let count = 0; count < total_ticket.length; count++) {
                 if(total_ticket[count].value > 0) {
@@ -311,9 +302,9 @@ const DetailPage = () => {
                 </div>
             </div>
             <Navbar/>
-            <div className="container mx-auto">
+            <div className="container p-5 mx-auto">
                 <div className="space-y-4"> 
-                    <div className="grid grid-cols-5 gap-3 mt-5">
+                    <div className="grid grid-cols-5 max-md:grid-cols-1 max-md:gap-0 gap-3 mt-5">
                         <div className="col-span-3">
                             <div>
                                 <h1 className="font-semibold text-xl mb-3">Detail Pemesanan</h1>
@@ -329,7 +320,7 @@ const DetailPage = () => {
                             </div>
 
                         </div>
-                        <div className="col-span-2 mx-4 shadow-md p-5 overflow-hidden h-full">
+                        <div className="col-span-2 mx-4 shadow-md p-5 overflow-hidden h-full max-md:m-0">
                             <div className="space-y-4 flex flex-col align-baseline justify-between h-full bg-white ">
                                 <div>
                                     <div><h1 className="font-semibold text-xl">{name_event}</h1></div>
@@ -344,7 +335,6 @@ const DetailPage = () => {
                                 <div> <p className="font-semibold text-sm">Diselenggarakan Oleh</p>
                                     <div className="flex gap-5 mt-3">
                                         <div>
-
                                             <p className="">{promotor}</p>
                                         </div>
                                     </div>
@@ -352,7 +342,7 @@ const DetailPage = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="grid grid-cols-5 gap-3 ">
+                    <div className="grid grid-cols-5 gap-3 max-md:grid-cols-1 max-md:gap-0">
                         <div className="col-span-3 bg-white px-5 py-3 border mb-5">
                             <div className="space-y-9">
                                 <div>
@@ -381,21 +371,21 @@ const DetailPage = () => {
                                     
                                         <div className={`bg-gray-50 border my-3 px-3 py-2 rounded mx-4 ${value.disable_qty_input !== 0 ? 'cursor-pointer' : ''} `} key={key} >
                                             <div className="space-y-5">
-                                                <div> <p className="font-normal">{value.name}</p></div>
+                                                <div> <p className="font-semibold">{value.name}</p></div>
                                                 <div>
-                                                <p className="text-sm mt-5 line-clamp-1">Paket hemat 4 orang dalam 1 mobil + PHOTOBOOTH. Pukul 14.00 - 17.00. Apabila penumpang lebih, tiket tambahan dapat di beli di tempat</p>
+                                                <p className="text-sm mt-5 line-clamp-none">Paket hemat 4 orang dalam 1 mobil + PHOTOBOOTH. Pukul 14.00 - 17.00. Apabila penumpang lebih, tiket tambahan dapat di beli di tempat</p>
                                                 </div>
                                                 <div> {value.remaining_qty_in_percentage === 1 && value.remaining_qty > 0 ? <>
-                                                    <span className="text-red-500 font-semibold bg-red-200 px-3 py-2 rounded">Sisa Tiket {value.remaining_qty} % </span>
+                                                    <span className="text-green-600 font-semibold bg-green-300 px-3 py-2 rounded">Sisa Tiket {value.remaining_qty} % </span>
                                                     </> : value.remaining_qty <= 5 && value.remaining_qty > 0 ? <>
                                                     <span className="text-red-500 font-semibold bg-red-200 px-3 py-2 rounded">Sisa {value.remaining_qty} Tiket </span>
-                                                    </> : '' }
+                                                </> : '' }
                                                 </div>
                                             </div>
                                             
-                                            <div className="flex justify-between mt-12">
+                                            <div className="flex justify-between items-center mt-12">
                                                 <div>
-                                                    <p className="mt-3 font-semibold">{value.price !== '0' ? value.price : 'GRATIS'}</p>
+                                                    <p className="mt-3 max-md:m-0 font-semibold">{value.price !== '0' ? value.price : 'GRATIS'}</p>
                                                 </div>
                                             
                                                 <ActionBtn dataPrice={value.price_value} dataKey={key} dataId={value.code} ticketSold={value.sold_out} DisableQtyInput={value.disable_qty_input} dataName={value.name} dataIdTicket={value.id} dataRemaindingInPercentage={value.remaining_qty_in_percentage} dataRemaindingQty={value.remaining_qty} />
@@ -410,9 +400,9 @@ const DetailPage = () => {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-span-2 mx-4 ">
+                        <div className="col-span-2 mx-4 max-md:m-0 ">
                             <div className="p-5 space-y-5 mt-5 ">
-                                <div className="flex gap-5">
+                                <div className="flex items-center gap-5">
                                     <div className="">
                                         <picture className="">
                                             <img src={`/images/icon/icon_ticket_.svg`} alt={`${name_event}`} className="" id="getImageEvent"/>
